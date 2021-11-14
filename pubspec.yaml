@@ -1,0 +1,53 @@
+name: marvel_comics
+description: A new Flutter project.
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.11.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+  flutter_localizations:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  flutter_screenutil: ^4.0.2+1
+  equatable: ^2.0.2
+  shared_preferences: ^2.0.5
+  flutter_bloc: ^7.0.1
+  dio: ^4.0.0
+  geolocator: ^6.2.1
+  intl: ^0.17.0
+  bloc_test: ^8.4.0
+  animated_text_kit: ^4.2.1
+  flutter_offline: ^2.0.0
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^1.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/lang/
+    - assets/fonts/
+    - assets/images/
+
+  fonts:
+    - family: BalsamiqSans
+      fonts:
+        - asset: assets/fonts/BalsamiqSans-Regular.ttf
+        - asset: assets/fonts/BalsamiqSans-Italic.ttf
+        - asset: assets/fonts/BalsamiqSans-Bold.ttf
+        - asset: assets/fonts/BalsamiqSans-BoldItalic.ttf
+          style: normal

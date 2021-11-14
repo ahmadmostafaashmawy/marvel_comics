@@ -1,0 +1,16 @@
+{
+  "AppName": "Marvel Comic",
+  "NoInternet": "Can't connect .. check internet",
+  "Search": "Search",
+  "Cancel": "Cancel",
+  "Name": "Name",
+  "Description": "Description",
+  "Comics": "Comics",
+  "Series": "Series",
+  "Stories": "Stories",
+  "Events": "Events",
+  "RelatedLinks": "Related Links",
+  "Detail": "Detail",
+  "Wiki": "Wiki",
+  "ComicLink": "ComicLink"
+}
