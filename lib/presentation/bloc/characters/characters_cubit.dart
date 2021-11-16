@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:marvel_comics/domain/comic_model.dart';
+import 'package:marvel_comics/domain/character_model.dart';
 import 'package:meta/meta.dart';
 
 import '../../../data/repository/comic_repository.dart';

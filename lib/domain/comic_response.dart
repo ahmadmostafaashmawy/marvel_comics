@@ -1,17 +1,17 @@
 import 'api_response.dart';
-import 'comic_model.dart';
+import 'character_model.dart';
 
-class ComicResponse extends BaseResponse {
+class CharacterResponse extends BaseResponse {
   int offset;
   int limit;
   int total;
   int count;
   List<CharacterModel> comics;
 
-  ComicResponse(
+  CharacterResponse(
       {this.offset, this.limit, this.total, this.count, this.comics});
 
-  ComicResponse.fromJson(Map<String, dynamic> json) {
+  CharacterResponse.fromJson(Map<String, dynamic> json) {
     offset = json['offset'];
     limit = json['limit'];
     total = json['total'];
@@ -36,8 +36,8 @@ class ComicResponse extends BaseResponse {
     return data;
   }
 
-  ComicResponse.init();
+  CharacterResponse.init();
 
   @override
-  fromJson(Map<String, dynamic> json) => ComicResponse.fromJson(json);
+  fromJson(Map<String, dynamic> json) => CharacterResponse.fromJson(json);
 }

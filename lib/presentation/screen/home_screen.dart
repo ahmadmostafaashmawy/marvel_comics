@@ -8,7 +8,7 @@ import 'package:marvel_comics/constants/localization_constains.dart';
 import 'package:marvel_comics/constants/strings.dart';
 import 'package:marvel_comics/data/repository/comic_repository.dart';
 import 'package:marvel_comics/data/web_services/comic_web_services.dart';
-import 'package:marvel_comics/domain/comic_model.dart';
+import 'package:marvel_comics/domain/character_model.dart';
 import 'package:marvel_comics/presentation/bloc/characters/characters_cubit.dart';
 import 'package:marvel_comics/presentation/widgets/loading.dart';
 import 'package:marvel_comics/presentation/widgets/no_internet_widget.dart';

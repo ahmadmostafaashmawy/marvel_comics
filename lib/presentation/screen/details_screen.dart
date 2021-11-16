@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:marvel_comics/constants/app_colors.dart';
 import 'package:marvel_comics/constants/localization_constains.dart';
 import 'package:marvel_comics/constants/strings.dart';
-import 'package:marvel_comics/domain/comic_model.dart';
+import 'package:marvel_comics/domain/character_model.dart';
 import 'package:marvel_comics/presentation/widgets/size.dart';
 import 'package:marvel_comics/presentation/widgets/text_display.dart';
 

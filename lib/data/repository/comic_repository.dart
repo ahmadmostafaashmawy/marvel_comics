@@ -9,10 +9,10 @@ class ComicRepository {
 
   ComicRepository(this.comicWebServices);
 
-  Future<AppResponse<ComicResponse>> getComics() async {
+  Future<AppResponse<CharacterResponse>> getComics() async {
     var response = await comicWebServices.getAllComics();
-    return AppResponse<ComicResponse>.fromJson(
-        response.data, ComicResponse.init(),
+    return AppResponse<CharacterResponse>.fromJson(
+        response.data, CharacterResponse.init(),
         isList: false);
   }
 }
