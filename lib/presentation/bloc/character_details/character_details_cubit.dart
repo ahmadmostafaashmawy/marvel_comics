@@ -4,28 +4,28 @@ import 'package:meta/meta.dart';
 
 import '../../../data/repository/comic_repository.dart';
 
-part 'stories_state.dart';
+part 'character_details_state.dart';
 
-class StoriesCubit extends Cubit<StoriesState> {
+class CharacterDetailsCubit extends Cubit<CharacterDetailsState> {
   final ComicRepository comicRepository;
-  List<ComicModel> comics = [];
+  List<CharacterModel> comics = [];
 
-  StoriesCubit(this.comicRepository) : super(StoriesInitial());
+  CharacterDetailsCubit(this.comicRepository) : super(CharacterDetailsInitial());
 
   Future<void> getAllComics() async {
-    emit(StoriesLoading());
+    emit(CharacterDetailsLoading());
     try {
       comicRepository.getComics().then((response) {
         if (response.code == 200) {
           comics = response.result.comics;
-          emit(StoriesSuccess(response.result.comics));
+          emit(CharacterDetailsSuccess(response.result.comics));
         } else {
-          emit(StoriesFailed(response.status));
+          emit(CharacterDetailsFailed(response.status));
         }
       });
     } catch (e) {
       print(e.toString());
-      emit(StoriesFailed(e.toString()));
+      emit(CharacterDetailsFailed(e.toString()));
     }
   }
 }

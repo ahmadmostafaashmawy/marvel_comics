@@ -6,7 +6,7 @@ class ComicResponse extends BaseResponse {
   int limit;
   int total;
   int count;
-  List<ComicModel> comics;
+  List<CharacterModel> comics;
 
   ComicResponse(
       {this.offset, this.limit, this.total, this.count, this.comics});
@@ -19,7 +19,7 @@ class ComicResponse extends BaseResponse {
     if (json['results'] != null) {
       comics = [];
       json['results'].forEach((v) {
-        comics.add(ComicModel.fromJson(v));
+        comics.add(CharacterModel.fromJson(v));
       });
     }
   }

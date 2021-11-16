@@ -9,7 +9,7 @@ import 'package:marvel_comics/constants/strings.dart';
 import 'package:marvel_comics/data/repository/comic_repository.dart';
 import 'package:marvel_comics/data/web_services/comic_web_services.dart';
 import 'package:marvel_comics/domain/comic_model.dart';
-import 'package:marvel_comics/presentation/bloc/comic/characters_cubit.dart';
+import 'package:marvel_comics/presentation/bloc/characters/characters_cubit.dart';
 import 'package:marvel_comics/presentation/widgets/loading.dart';
 import 'package:marvel_comics/presentation/widgets/no_internet_widget.dart';
 import 'package:marvel_comics/presentation/widgets/text_display.dart';
@@ -29,8 +29,8 @@ class _HomeScreenState extends State<HomeScreen> {
   CharactersCubit comicCubit;
   bool _isSearching = false;
   final _searchTextController = TextEditingController();
-  List<ComicModel> charactersList = [];
-  List<ComicModel> searchedCharacters = [];
+  List<CharacterModel> charactersList = [];
+  List<CharacterModel> searchedCharacters = [];
 
   @override
   void initState() {
@@ -178,7 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget comicItem(ComicModel comic) {
+  Widget comicItem(CharacterModel comic) {
     return InkWell(
       onTap: () => pushName(context, AppRoute.detailsScreen, arguments: comic),
       child: Stack(alignment: Alignment.bottomLeft, children: [

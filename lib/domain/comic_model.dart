@@ -3,7 +3,7 @@ import 'package:marvel_comics/domain/comic_thumbnail.dart';
 import 'package:marvel_comics/domain/url_model.dart';
 import 'package:marvel_comics/domain/url_model.dart';
 
-class ComicModel {
+class CharacterModel {
   int id;
   String name;
   String description;
@@ -16,7 +16,7 @@ class ComicModel {
   CollectionModel events;
   List<UrlModel> urls;
 
-  ComicModel(
+  CharacterModel(
       {this.id,
       this.name,
       this.description,
@@ -29,7 +29,7 @@ class ComicModel {
       this.events,
       this.urls});
 
-  ComicModel.fromJson(Map<String, dynamic> json) {
+  CharacterModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     description = json['description'];
@@ -44,8 +44,8 @@ class ComicModel {
     series = json['series'] != null
         ? CollectionModel.fromJson(json['series'])
         : null;
-    stories = json['stories'] != null
-        ? CollectionModel.fromJson(json['stories'])
+    stories = json['characters'] != null
+        ? CollectionModel.fromJson(json['characters'])
         : null;
     events = json['events'] != null
         ? CollectionModel.fromJson(json['events'])
@@ -75,7 +75,7 @@ class ComicModel {
       data['series'] = series.toJson();
     }
     if (stories != null) {
-      data['stories'] = stories.toJson();
+      data['characters'] = stories.toJson();
     }
     if (events != null) {
       data['events'] = events.toJson();

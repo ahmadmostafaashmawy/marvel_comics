@@ -8,7 +8,7 @@ class CharactersInitial extends CharactersState {}
 class CharactersLoading extends CharactersState {}
 
 class CharactersSuccess extends CharactersState {
-  final List<ComicModel> comics;
+  final List<CharacterModel> comics;
 
   CharactersSuccess(this.comics);
 }

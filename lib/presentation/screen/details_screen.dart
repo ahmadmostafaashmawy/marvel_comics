@@ -7,7 +7,7 @@ import 'package:marvel_comics/presentation/widgets/size.dart';
 import 'package:marvel_comics/presentation/widgets/text_display.dart';
 
 class DetailsScreen extends StatelessWidget {
-  ComicModel comic;
+  CharacterModel comic;
 
   @override
   Widget build(BuildContext context) {
