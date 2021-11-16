@@ -1,28 +1,29 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:marvel_comics/data/repository/lang_reposirory.dart';
-import 'lang_event.dart';
 import 'lang_state.dart';
 
-class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
-  static const String arabic = 'ar';
-  static const String english = 'en';
-
-  LanguageBloc() : super(LanguageInitial());
+class LanguageCubit extends Cubit<LanguageState> {
   String lang = 'en';
 
-  @override
-  Stream<LanguageState> mapEventToState(LanguageEvent event) async* {
-    if (event is AppStart) {
-      LanguageLoading();
-      String result = await LanguageRepository.hasLang();
-      lang = result ?? 'ar';
-      yield LanguagChanged(language: result ?? "ar");
-    } else if (event is ChangeLanguage) {
-      LanguageLoading();
-      lang = event.lang;
-      await LanguageRepository.saveLang(lang);
-      yield LanguagChanged(language: event.lang);
-    }
+  static const String arabic = 'ar';
+  static const String english = 'en';
+  final LanguageRepository langRepository;
+
+  LanguageCubit(this.langRepository) : super(LanguageInitial());
+
+  Future<void> getLanguage() async {
+    // if (event is AppStart) {
+    emit(LanguageLoading());
+    String result = await langRepository.hasLang();
+    lang = result ?? 'ar';
+    emit(LanguageChanged(language: result ?? "ar"));
+  }
+
+  Future<void> changeLanguage(String newLang) async {
+    emit(LanguageLoading());
+    lang = newLang;
+    await langRepository.saveLang(newLang);
+    emit(LanguageChanged(language: newLang));
   }
 }

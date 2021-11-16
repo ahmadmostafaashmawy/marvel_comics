@@ -37,7 +37,7 @@ class DetailsScreen extends StatelessWidget {
                         isUpper: true,
                       ),
                       HeightBox(8),
-                      AppTextDisplay(text: comic.title),
+                      AppTextDisplay(text: comic.name),
                       HeightBox(16),
                       AppTextDisplay(
                         translation: kDescription,

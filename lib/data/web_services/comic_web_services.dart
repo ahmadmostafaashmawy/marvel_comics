@@ -19,7 +19,9 @@ class ComicWebServices {
   Future<dynamic> getAllComics() async {
     try {
       int ts = generateTimeStamp();
-      Response response = await dio.get('comics', queryParameters: {
+      print("timestamps: $ts");
+      print("timestamps: ${generateMd5(ts.toString(), privateKey, publicKey)}");
+      Response response = await dio.get('characters', queryParameters: {
         'ts': ts,
         'apikey': publicKey,
         'hash': generateMd5(ts.toString(), privateKey, publicKey)

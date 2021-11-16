@@ -1,18 +1,18 @@
 class UrlModel {
-  String resourceURI;
-  String name;
+  String type;
+  String url;
 
-  UrlModel({this.resourceURI, this.name});
+  UrlModel({this.type, this.url});
 
   UrlModel.fromJson(Map<String, dynamic> json) {
-    resourceURI = json['resourceURI'];
-    name = json['name'];
+    type = json['type'];
+    url = json['url'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['resourceURI'] = this.resourceURI;
-    data['name'] = this.name;
+    data['type'] = this.type;
+    data['url'] = this.url;
     return data;
   }
 }

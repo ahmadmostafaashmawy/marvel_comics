@@ -6,26 +6,30 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:marvel_comics/presentation/bloc/lang/lang_bloc.dart';
 import 'package:marvel_comics/presentation/bloc/lang/lang_state.dart';
+import 'package:marvel_comics/presentation/widgets/loading.dart';
 import 'package:marvel_comics/routes.dart';
 import 'package:marvel_comics/utilities/app_localizations.dart';
+
+import 'data/repository/lang_reposirory.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(MultiBlocProvider(providers: [
-    BlocProvider<LanguageBloc>(create: (context) => LanguageBloc()),
-  ], child: MyApp()));
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  static String lang = LanguageBloc.english;
+  static String lang = LanguageCubit.english;
 
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+  LanguageCubit _langCubit;
+  LanguageRepository languageRepository = LanguageRepository();
+
   @override
   void initState() {
     SystemChrome.setPreferredOrientations([
@@ -34,44 +38,46 @@ class _MyAppState extends State<MyApp> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    _langCubit = LanguageCubit(languageRepository);
+    _langCubit.getLanguage();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LanguageBloc, LanguageState>(builder: (context, state) {
-      LanguageBloc languageBloc = BlocProvider.of(context);
-      MyApp.lang = languageBloc.lang;
-
-      return ScreenUtilInit(
-          designSize: const Size(360, 690),
-          builder: () {
-            return MaterialApp(
-              theme: ThemeData(primarySwatch: Colors.teal),
-              debugShowCheckedModeBanner: false,
-              routes: routes,
-              // initialRoute: AppRoute.Splash,
-              supportedLocales: const [
-                Locale('ar', 'EG'),
-                Locale('en', 'US'),
-              ],
-              locale: Locale(MyApp.lang),
-              localizationsDelegates: const [
-                // THIS CLASS WILL BE ADDED LATER
-                // A class which loads the translations from JSON files
-                AppLocalizations.delegate,
-                // Built-in localization of basic text for Material widgets
-                GlobalMaterialLocalizations.delegate,
-                // Built-in localization for text direction LTR/RTL
-                GlobalWidgetsLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-                DefaultCupertinoLocalizations.delegate
-              ],
-            );
-          });
-    });
+    return BlocProvider(
+      create: (BuildContext blocContext) => _langCubit,
+      child:
+          BlocBuilder<LanguageCubit, LanguageState>(builder: (context, state) {
+        if (state is LanguageChanged) {
+          return ScreenUtilInit(
+              designSize: const Size(360, 690),
+              builder: () {
+                return MaterialApp(
+                  theme: ThemeData(primarySwatch: Colors.teal),
+                  debugShowCheckedModeBanner: false,
+                  routes: routes,
+                  supportedLocales: const [
+                    Locale('ar', 'EG'),
+                    Locale('en', 'US'),
+                  ],
+                  locale: Locale(MyApp.lang),
+                  localizationsDelegates: const [
+                    AppLocalizations.delegate,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+                    DefaultCupertinoLocalizations.delegate
+                  ],
+                );
+              });
+        } else {
+          return LoadingWidget();
+        }
+      }),
+    );
   }
 
   @override
