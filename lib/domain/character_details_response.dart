@@ -1,17 +1,18 @@
-import 'api_response.dart';
-import 'character_model.dart';
+import 'package:marvel_comics/domain/comic_model.dart';
 
-class CharacterResponse extends BaseResponse {
+import 'api_response.dart';
+
+class CharacterDetailsResponse extends BaseResponse {
   int offset;
   int limit;
   int total;
   int count;
-  List<CharacterModel> comics;
+  List<ComicModel> comics;
 
-  CharacterResponse(
+  CharacterDetailsResponse(
       {this.offset, this.limit, this.total, this.count, this.comics});
 
-  CharacterResponse.fromJson(Map<String, dynamic> json) {
+  CharacterDetailsResponse.fromJson(Map<String, dynamic> json) {
     offset = json['offset'];
     limit = json['limit'];
     total = json['total'];
@@ -19,13 +20,13 @@ class CharacterResponse extends BaseResponse {
     if (json['results'] != null) {
       comics = [];
       json['results'].forEach((v) {
-        comics.add(CharacterModel.fromJson(v));
+        comics.add(ComicModel.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['offset'] = offset;
     data['limit'] = limit;
     data['total'] = total;
@@ -36,8 +37,8 @@ class CharacterResponse extends BaseResponse {
     return data;
   }
 
-  CharacterResponse.init();
+  CharacterDetailsResponse.init();
 
   @override
-  fromJson(Map<String, dynamic> json) => CharacterResponse.fromJson(json);
+  fromJson(Map<String, dynamic> json) => CharacterDetailsResponse.fromJson(json);
 }

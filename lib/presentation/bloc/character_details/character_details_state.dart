@@ -8,9 +8,11 @@ class CharacterDetailsInitial extends CharacterDetailsState {}
 class CharacterDetailsLoading extends CharacterDetailsState {}
 
 class CharacterDetailsSuccess extends CharacterDetailsState {
-  final List<CharacterModel> comics;
+  final List<ComicModel> stories;
+  final List<ComicModel> events;
+  final List<ComicModel> series;
 
-  CharacterDetailsSuccess(this.comics);
+  CharacterDetailsSuccess(this.stories, this.events, this.series);
 }
 
 class CharacterDetailsFailed extends CharacterDetailsState {

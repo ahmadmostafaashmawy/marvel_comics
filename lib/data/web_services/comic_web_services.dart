@@ -33,4 +33,30 @@ class ComicWebServices {
       return [];
     }
   }
+
+  Future<dynamic> getCharacterDetails(String baseUrl) async {
+    try {
+      BaseOptions options = BaseOptions(
+        baseUrl: baseUrl,
+        receiveDataWhenStatusError: true,
+        connectTimeout: 20 * 1000, // 60 seconds,
+        receiveTimeout: 20 * 1000,
+      );
+
+      dio = Dio(options);
+      int ts = generateTimeStamp();
+      print("timestamps: $ts");
+      print("timestamps: ${generateMd5(ts.toString(), privateKey, publicKey)}");
+      Response response = await dio.get('characters', queryParameters: {
+        'ts': ts,
+        'apikey': publicKey,
+        'hash': generateMd5(ts.toString(), privateKey, publicKey)
+      });
+      print(response.data.toString());
+      return response;
+    } catch (e) {
+      print(e.toString());
+      return [];
+    }
+  }
 }

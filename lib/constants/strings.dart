@@ -4,3 +4,6 @@ const String privateKey = 'fa68cd45225c6c7d5548b52ce27e08e7d72c9f97';
 const String landscapeXLarge = '/landscape_xlarge.';
 const String portraitXLarge = '/portrait_xlarge.';
 
+const splashScreen = '/';
+const homeScreen = '/home';
+const detailsScreen = '/detailsScreen';

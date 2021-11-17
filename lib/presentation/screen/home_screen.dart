@@ -25,8 +25,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  ComicRepository comicRepository;
-  CharactersCubit comicCubit;
   bool _isSearching = false;
   final _searchTextController = TextEditingController();
   List<CharacterModel> charactersList = [];
@@ -34,41 +32,35 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    comicRepository = ComicRepository(ComicWebServices());
-    comicCubit = CharactersCubit(comicRepository);
-    comicCubit.getAllMarvelCharacters();
+    BlocProvider.of<CharactersCubit>(context).getAllMarvelCharacters();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext blocContext) => comicCubit,
-      child: Scaffold(
+    return Scaffold(
+      backgroundColor: AppColor.black,
+      appBar: AppBar(
         backgroundColor: AppColor.black,
-        appBar: AppBar(
-          backgroundColor: AppColor.black,
-          leading: _isSearching
-              ? const BackButton(color: AppColor.red)
-              : Container(),
-          title: _isSearching ? _buildSearchField() : _buildAppBarTitle(),
-          actions: _buildAppBarActions(),
-        ),
-        body: OfflineBuilder(
-          connectivityBuilder: (
-            BuildContext context,
-            ConnectivityResult connectivity,
-            Widget child,
-          ) {
-            final bool connected = connectivity != ConnectivityResult.none;
-            if (connected) {
-              return buildBlocWidget();
-            } else {
-              return const NoInternetWidget();
-            }
-          },
-          child: LoadingWidget(),
-        ),
+        leading:
+            _isSearching ? const BackButton(color: AppColor.red) : Container(),
+        title: _isSearching ? _buildSearchField() : _buildAppBarTitle(),
+        actions: _buildAppBarActions(),
+      ),
+      body: OfflineBuilder(
+        connectivityBuilder: (
+          BuildContext context,
+          ConnectivityResult connectivity,
+          Widget child,
+        ) {
+          final bool connected = connectivity != ConnectivityResult.none;
+          if (connected) {
+            return buildBlocWidget();
+          } else {
+            return const NoInternetWidget();
+          }
+        },
+        child: LoadingWidget(),
       ),
     );
   }
@@ -178,23 +170,24 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget comicItem(CharacterModel comic) {
+  Widget comicItem(CharacterModel character) {
     return InkWell(
-      onTap: () => pushName(context, AppRoute.detailsScreen, arguments: comic),
+      onTap: () =>
+          Navigator.pushNamed(context, detailsScreen, arguments: character),
       child: Stack(alignment: Alignment.bottomLeft, children: [
         FadeInImage.assetNetwork(
           width: double.infinity,
           placeholder: AppImages.loadingImg,
-          image: comic.thumbnail.path +
+          image: character.thumbnail.path +
               landscapeXLarge +
-              comic.thumbnail.extension,
+              character.thumbnail.extension,
           fit: BoxFit.cover,
         ),
         Container(
           color: AppColor.white,
           padding: const EdgeInsets.all(16),
           child: AppTextDisplay(
-            text: comic.name,
+            text: character.name,
             color: AppColor.black,
           ),
         ),

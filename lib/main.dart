@@ -53,10 +53,11 @@ class _MyAppState extends State<MyApp> {
           return ScreenUtilInit(
               designSize: const Size(360, 690),
               builder: () {
+                AppRouter appRouter = AppRouter();
                 return MaterialApp(
                   theme: ThemeData(primarySwatch: Colors.teal),
                   debugShowCheckedModeBanner: false,
-                  routes: routes,
+                  onGenerateRoute: appRouter.generateRoute,
                   supportedLocales: const [
                     Locale('ar', 'EG'),
                     Locale('en', 'US'),

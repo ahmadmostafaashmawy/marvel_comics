@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:marvel_comics/constants/app_images.dart';
+import 'package:marvel_comics/constants/strings.dart';
 import 'package:marvel_comics/utilities/navigator.dart';
 
 import '../../routes.dart';
@@ -20,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     timer = Timer.periodic(const Duration(seconds: 3), (timer) async {
-      popAndPushName(context, AppRoute.homeScreen);
+      Navigator.pushReplacementNamed(context, homeScreen);
     });
   }
 

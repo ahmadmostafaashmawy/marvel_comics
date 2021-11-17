@@ -1,20 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marvel_comics/constants/app_colors.dart';
 import 'package:marvel_comics/constants/localization_constains.dart';
 import 'package:marvel_comics/constants/strings.dart';
 import 'package:marvel_comics/domain/character_model.dart';
+import 'package:marvel_comics/presentation/bloc/character_details/character_details_cubit.dart';
+import 'package:marvel_comics/presentation/widgets/loading.dart';
 import 'package:marvel_comics/presentation/widgets/size.dart';
 import 'package:marvel_comics/presentation/widgets/text_display.dart';
 
-class DetailsScreen extends StatelessWidget {
-  CharacterModel comic;
+class DetailsScreen extends StatefulWidget {
+  final CharacterModel character;
+
+  const DetailsScreen(this.character, {Key key}) : super(key: key);
+
+  @override
+  State<DetailsScreen> createState() => _DetailsScreenState();
+}
+
+class _DetailsScreenState extends State<DetailsScreen> {
+  @override
+  void initState() {
+    BlocProvider.of<CharacterDetailsCubit>(context)
+        .getCharacterDetails(widget.character);
+    super.initState();
+  }
+
+  Widget buildBlocWidget() {
+    return BlocBuilder<CharacterDetailsCubit, CharacterDetailsState>(
+      builder: (context, state) {
+        if (state is CharacterDetailsSuccess) {
+          List charactersList = (state).series;
+          return ListView.builder(
+            shrinkWrap: true,
+            itemCount: charactersList.length,
+            itemBuilder: (context, index) =>
+                AppTextDisplay(text: charactersList[index].title),
+          );
+        }
+        if (state is CharacterDetailsFailed) {
+          return AppTextDisplay(text: state.error);
+        } else {
+          return LoadingWidget();
+        }
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (ModalRoute.of(context).settings.arguments != null) {
-      comic = ModalRoute.of(context).settings.arguments;
-    }
-
     return Scaffold(
       backgroundColor: AppColor.black,
       body: CustomScrollView(
@@ -37,7 +71,7 @@ class DetailsScreen extends StatelessWidget {
                         isUpper: true,
                       ),
                       HeightBox(8),
-                      AppTextDisplay(text: comic.name),
+                      AppTextDisplay(text: widget.character.name),
                       HeightBox(16),
                       AppTextDisplay(
                         translation: kDescription,
@@ -46,7 +80,13 @@ class DetailsScreen extends StatelessWidget {
                         isUpper: true,
                       ),
                       HeightBox(8),
-                      AppTextDisplay(text: comic.description),
+                      AppTextDisplay(
+                        text: widget.character.description,
+                        textAlign: TextAlign.start,
+                        maxLines: 10,
+                      ),
+                      HeightBox(16),
+                      buildBlocWidget()
                     ],
                   ),
                 ),
@@ -64,12 +104,14 @@ class DetailsScreen extends StatelessWidget {
       expandedHeight: 400,
       pinned: true,
       stretch: true,
-      backgroundColor: AppColor.grey,
+      backgroundColor: AppColor.black,
       flexibleSpace: FlexibleSpaceBar(
         background: Hero(
-          tag: comic.id,
+          tag: widget.character.id,
           child: Image.network(
-            comic.thumbnail.path + landscapeXLarge + comic.thumbnail.extension,
+            widget.character.thumbnail.path +
+                landscapeXLarge +
+                widget.character.thumbnail.extension,
             fit: BoxFit.cover,
           ),
         ),
