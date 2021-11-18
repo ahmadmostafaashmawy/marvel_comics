@@ -22,7 +22,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   @override
   void initState() {
     BlocProvider.of<CharacterDetailsCubit>(context)
-        .getCharacterDetails(widget.character);
+        .getCharacterDetails(widget.character.series.collectionURI);
     super.initState();
   }
 
@@ -30,12 +30,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
     return BlocBuilder<CharacterDetailsCubit, CharacterDetailsState>(
       builder: (context, state) {
         if (state is CharacterDetailsSuccess) {
-          List charactersList = (state).series;
+          List charactersList = (state).comicList;
           return ListView.builder(
             shrinkWrap: true,
             itemCount: charactersList.length,
-            itemBuilder: (context, index) =>
-                AppTextDisplay(text: charactersList[index].title),
+            itemBuilder: (context, index) => AppTextDisplay(
+              text: charactersList[index].title,
+              color: AppColor.white,
+            ),
           );
         }
         if (state is CharacterDetailsFailed) {
