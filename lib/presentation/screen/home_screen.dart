@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_offline/flutter_offline.dart';
@@ -175,10 +176,11 @@ class _HomeScreenState extends State<HomeScreen> {
       onTap: () =>
           Navigator.pushNamed(context, detailsScreen, arguments: character),
       child: Stack(alignment: Alignment.bottomLeft, children: [
-        FadeInImage.assetNetwork(
+        CachedNetworkImage(
           width: double.infinity,
-          placeholder: AppImages.loadingImg,
-          image: character.thumbnail.path +
+          placeholder: (context, url) => LoadingWidget(),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
+          imageUrl: character.thumbnail.path +
               landscapeXLarge +
               character.thumbnail.extension,
           fit: BoxFit.cover,
