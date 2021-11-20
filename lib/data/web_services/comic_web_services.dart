@@ -47,7 +47,7 @@ class ComicWebServices {
       int ts = generateTimeStamp();
       print("timestamps: $ts");
       print("timestamps: ${generateMd5(ts.toString(), privateKey, publicKey)}");
-      Response response = await dio.get('characters', queryParameters: {
+      Response response = await dio.get('', queryParameters: {
         'ts': ts,
         'apikey': publicKey,
         'hash': generateMd5(ts.toString(), privateKey, publicKey)

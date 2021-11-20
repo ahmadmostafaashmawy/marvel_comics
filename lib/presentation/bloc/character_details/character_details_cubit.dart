@@ -9,36 +9,21 @@ part 'character_details_state.dart';
 
 class CharacterDetailsCubit extends Cubit<CharacterDetailsState> {
   final ComicRepository comicRepository;
-  List<ComicModel> series = [];
-  List<ComicModel> events = [];
-  List<ComicModel> stories = [];
+  List<ComicModel> comicList = [];
 
   CharacterDetailsCubit(this.comicRepository)
       : super(CharacterDetailsInitial());
 
-  Future<void> getCharacterDetails(CharacterModel characterModel) async {
+  Future<void> getCharacterDetails(String collectionURI) async {
     emit(CharacterDetailsLoading());
     try {
-      await getSeries(characterModel);
-      emit(CharacterDetailsSuccess(stories, events, series));
-    } catch (e) {
-      emit(CharacterDetailsFailed(e.toString()));
-    }
-  }
+      var response = await comicRepository.getCharacterDetails(collectionURI);
 
-  Future<void> getSeries(CharacterModel characterModel) async {
-    try {
-      var responses = await Future.wait([
-        for (int i = 0; i < characterModel.series.items.length; i++)
-          comicRepository
-              .getCharacterDetails(characterModel.series.items[i].resourceURI)
-      ]);
+      if (response != null) {
+        comicList = response.result.comics;
+      }
 
-      responses.map((response) {
-        if (response.code == 200) {
-          series = response.result.comics;
-        }
-      });
+      emit(CharacterDetailsSuccess(comicList));
     } catch (e) {
       print(e.toString());
       emit(CharacterDetailsFailed(e.toString()));
