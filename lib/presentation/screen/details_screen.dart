@@ -33,15 +33,21 @@ class _DetailsScreenState extends State<DetailsScreen> {
   void initState() {
     comicRepository = ComicRepository(ComicWebServices());
     seriesCubit = CharacterDetailsCubit(comicRepository);
-    seriesCubit.getCharacterDetails(widget.character.series.collectionURI);
+    if (widget.character.series != null) {
+      seriesCubit.getCharacterDetails(widget.character.series.collectionURI);
+    }
     comicCubit = CharacterDetailsCubit(comicRepository);
-    comicCubit.getCharacterDetails(widget.character.comics.collectionURI);
+    if (widget.character.comics != null) {
+      comicCubit.getCharacterDetails(widget.character.comics.collectionURI);
+    }
     storiesCubit = CharacterDetailsCubit(comicRepository);
     if (widget.character.stories != null) {
       storiesCubit.getCharacterDetails(widget.character.stories.collectionURI);
     }
     eventsCubit = CharacterDetailsCubit(comicRepository);
-    eventsCubit.getCharacterDetails(widget.character.events.collectionURI);
+    if (widget.character.events != null) {
+      eventsCubit.getCharacterDetails(widget.character.events.collectionURI);
+    }
     super.initState();
   }
 
@@ -107,63 +113,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      AppTextDisplay(
-                        translation: kName,
-                        color: AppColor.red,
-                        fontSize: 14,
-                        isUpper: true,
-                      ),
-                      HeightBox(8),
-                      AppTextDisplay(text: widget.character.name),
-                      HeightBox(16),
-                      AppTextDisplay(
-                        translation: kDescription,
-                        color: AppColor.red,
-                        fontSize: 14,
-                        isUpper: true,
-                      ),
-                      HeightBox(8),
-                      AppTextDisplay(
-                        text: widget.character.description,
-                        textAlign: TextAlign.start,
-                        maxLines: 10,
-                      ),
-                      HeightBox(16),
-                      AppTextDisplay(
-                        translation: kComics,
-                        color: AppColor.red,
-                        fontSize: 14,
-                        isUpper: true,
-                      ),
-                      HeightBox(8),
-                      buildCubitList(comicCubit),
-                      HeightBox(16),
-                      AppTextDisplay(
-                        translation: kSeries,
-                        color: AppColor.red,
-                        fontSize: 14,
-                        isUpper: true,
-                      ),
-                      HeightBox(8),
-                      buildCubitList(seriesCubit),
-                      HeightBox(16),
-                      AppTextDisplay(
-                        translation: kStories,
-                        color: AppColor.red,
-                        fontSize: 14,
-                        isUpper: true,
-                      ),
-                      HeightBox(8),
-                      buildCubitList(storiesCubit),
-                      HeightBox(16),
-                      AppTextDisplay(
-                        translation: kEvents,
-                        color: AppColor.red,
-                        fontSize: 14,
-                        isUpper: true,
-                      ),
-                      HeightBox(8),
-                      buildCubitList(eventsCubit),
+                      buildTitleWidget(),
+                      buildDescriptionWidget(),
+                      if (widget.character.comics != null) buildComicsWidget(),
+                      if (widget.character.series != null) buildSeriesWidget(),
+                      if (widget.character.stories != null)
+                        buildStoriesWidget(),
+                      if (widget.character.events != null) buildEventsWidget(),
                     ],
                   ),
                 ),
@@ -199,6 +155,105 @@ class _DetailsScreenState extends State<DetailsScreen> {
       width: double.infinity,
       placeholder: (context, url) => LoadingWidget(),
       errorWidget: (context, url, error) => const Icon(Icons.error),
+    );
+  }
+
+  Widget buildComicsWidget() {
+    return Column(
+      children: [
+        HeightBox(16),
+        AppTextDisplay(
+          translation: kComics,
+          color: AppColor.red,
+          fontSize: 14,
+          isUpper: true,
+        ),
+        HeightBox(8),
+        buildCubitList(comicCubit),
+      ],
+    );
+  }
+
+  Widget buildSeriesWidget() {
+    return Column(
+      children: [
+        HeightBox(16),
+        AppTextDisplay(
+          translation: kSeries,
+          color: AppColor.red,
+          fontSize: 14,
+          isUpper: true,
+        ),
+        HeightBox(8),
+        buildCubitList(seriesCubit),
+      ],
+    );
+  }
+
+  Widget buildStoriesWidget() {
+    return Column(
+      children: [
+        HeightBox(16),
+        AppTextDisplay(
+          translation: kStories,
+          color: AppColor.red,
+          fontSize: 14,
+          isUpper: true,
+        ),
+        HeightBox(8),
+        buildCubitList(storiesCubit),
+      ],
+    );
+  }
+
+  Widget buildEventsWidget() {
+    return Column(
+      children: [
+        HeightBox(16),
+        AppTextDisplay(
+          translation: kEvents,
+          color: AppColor.red,
+          fontSize: 14,
+          isUpper: true,
+        ),
+        HeightBox(8),
+        buildCubitList(eventsCubit),
+      ],
+    );
+  }
+
+  Widget buildDescriptionWidget() {
+    return Column(
+      children: [
+        AppTextDisplay(
+          translation: kDescription,
+          color: AppColor.red,
+          fontSize: 14,
+          isUpper: true,
+        ),
+        HeightBox(8),
+        AppTextDisplay(
+          text: widget.character.description,
+          textAlign: TextAlign.start,
+          maxLines: 10,
+        ),
+      ],
+    );
+  }
+
+  Widget buildTitleWidget() {
+    return Column(
+      children: [
+        AppTextDisplay(
+          translation: kName,
+          color: AppColor.red,
+          fontSize: 14,
+          isUpper: true,
+        ),
+        HeightBox(8),
+        AppTextDisplay(text: widget.character.name),
+        HeightBox(16),
+      ],
     );
   }
 }

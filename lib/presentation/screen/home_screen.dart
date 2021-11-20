@@ -175,25 +175,49 @@ class _HomeScreenState extends State<HomeScreen> {
     return InkWell(
       onTap: () =>
           Navigator.pushNamed(context, detailsScreen, arguments: character),
-      child: Stack(alignment: Alignment.bottomLeft, children: [
-        CachedNetworkImage(
-          width: double.infinity,
-          placeholder: (context, url) => LoadingWidget(),
-          errorWidget: (context, url, error) => const Icon(Icons.error),
-          imageUrl: character.thumbnail.path +
-              landscapeXLarge +
-              character.thumbnail.extension,
-          fit: BoxFit.cover,
+      child: _searchTextController.text.isEmpty
+          ? defaultCharacterItem(character)
+          : searchedCharacterItem(character),
+    );
+  }
+
+  Widget defaultCharacterItem(CharacterModel character) {
+    return Stack(alignment: Alignment.bottomLeft, children: [
+      cachedNetworkImage(character),
+      Container(
+        color: AppColor.white,
+        padding: const EdgeInsets.all(16),
+        child: AppTextDisplay(
+          text: character.name,
+          color: AppColor.black,
         ),
-        Container(
-          color: AppColor.white,
-          padding: const EdgeInsets.all(16),
-          child: AppTextDisplay(
-            text: character.name,
-            color: AppColor.black,
-          ),
-        ),
-      ]),
+      ),
+    ]);
+  }
+
+  Widget cachedNetworkImage(CharacterModel character) {
+    return CachedNetworkImage(
+      width: double.infinity,
+      placeholder: (context, url) => LoadingWidget(),
+      errorWidget: (context, url, error) => const Icon(Icons.error),
+      imageUrl: character.thumbnail.path +
+          landscapeXLarge +
+          character.thumbnail.extension,
+      fit: BoxFit.cover,
+    );
+  }
+
+  Widget searchedCharacterItem(CharacterModel character) {
+    return SizedBox(
+      height: ScreenUtil().setHeight(60),
+      child: Row(
+        children: [
+          SizedBox(
+              width: ScreenUtil().setWidth(60),
+              child: cachedNetworkImage(character)),
+          Expanded(child: AppTextDisplay(text: character.name))
+        ],
+      ),
     );
   }
 }
